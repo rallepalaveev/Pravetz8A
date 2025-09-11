@@ -1,0 +1,68 @@
+Name      CM633;
+Partno    00;
+Date      None;
+Revision  00;
+Designer  None;
+Company   None;
+Assembly  None;
+Location  None;
+Device    g16v8;
+
+PIN 1           = 14M;
+PIN 2           = 7M;
+PIN 3           = CREF;
+PIN 4           = H0;
+PIN 5           = VID7;
+PIN 6           = SEGB;
+PIN 7           = GR;
+PIN 8           = CASEN;
+PIN 9           = 80COL;
+PIN 11          = ENTMG;
+PIN 12          = LDPS;
+PIN 13          = VID7M;
+PIN 14          = PHASE_1;
+PIN 15          = PHASE_0;
+PIN 16          = Q3;
+PIN 17          = CAS;
+PIN 18          = AX;
+PIN 19          = RAS;
+
+!RAS.d =	Q3
+		# 7M & !RAS & !PHASE_0
+		# !7M & !AX & PHASE_0
+		# 7M & CREF & AX & H0 & PHASE_0
+		# !7M & !CREF & AX & H0 & PHASE_0;
+
+!AX.d  =	!RAS & Q3;
+
+!CAS.d =	!RAS & !AX & CAS & !PHASE_0
+		# !RAS & !AX & CAS & PHASE_0 & !CASEN
+		# !RAS & !CAS;
+
+!Q3.d  =	!7M & !AX & !PHASE_0
+		# !RAS & !Q3
+		# 7M & !AX & PHASE_0;
+
+!PHASE_0.d =	RAS & !Q3 & PHASE_0
+		# Q3 & !PHASE_0
+		# !RAS & !PHASE_0;
+
+!PHASE_1.d =	RAS & !Q3 & !PHASE_0
+		# Q3 & PHASE_0
+		# !RAS & PHASE_0;
+
+!VID7M.d =	7M & GR
+		# !SEGB & PHASE_0 & !GR & VID7M
+		# Q3 & !SEGB & !GR & VID7M
+		# AX & !SEGB & !GR & VID7M
+		# !AX & !VID7 & !Q3 & !SEGB & !PHASE_0 & !GR
+		# CREF & !AX & !H0 & !Q3 & !SEGB & !PHASE_0 & !GR
+		# SEGB & !GR
+		# GR & !80COL;
+
+!LDPS.d =	7M & !RAS & !VID7 & !Q3 & !SEGB & !PHASE_0 & !GR
+		# !7M & !RAS & VID7 & !Q3 & !SEGB & !PHASE_0 & !GR
+		# !AX & !Q3 & SEGB & !PHASE_0 & !GR
+		# !AX & !Q3 & !PHASE_0 & GR
+		# !AX & !Q3 & PHASE_0 & GR & !80COL
+		# CREF & !AX & !H0 & !Q3 & !SEGB & !PHASE_0 & !GR;
